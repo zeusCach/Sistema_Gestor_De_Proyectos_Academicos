@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import {RegisterForm} from './components/RegisterForm.jsx'
 import './styles/App.css'
 
 function App() {
  
   return (
     <>
-      <h2>Hola Funciono</h2>
+      <RegisterForm/>
     </>
   )
 }

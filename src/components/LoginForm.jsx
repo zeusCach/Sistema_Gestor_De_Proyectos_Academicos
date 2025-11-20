@@ -3,6 +3,10 @@ import { Checkbox } from './Checkbox.jsx';
 import {InputField} from './InputField.jsx'
 import {Button} from './Button.jsx'
 
+//react router
+import { Link } from "react-router-dom";
+
+
 export const LoginForm = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -34,9 +38,9 @@ export const LoginForm = () => {
             name="remember"
           />
           
-          <a href="/recuperar-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+          <Link to="/recuperar-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
             ¿Olvidaste tu contraseña?
-          </a>
+          </Link>
         </div>
 
         <Button variant="primary">Iniciar Sesión</Button>
@@ -55,22 +59,22 @@ export const LoginForm = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             ¿No tienes cuenta?{' '}
-            <a href="/registro" className="text-blue-600 hover:text-blue-700 font-medium">
+            <Link to="/register" className="text-blue-600 hover:text-blue-700 font-medium">
               Regístrate aquí
-            </a>
+            </Link>
           </p>
         </div>
 
         <div className="mt-6 pt-6 border-t border-gray-200">
           <p className="text-xs text-center text-gray-500">
             Al iniciar sesión, aceptas nuestros{' '}
-            <a href="/terminos" className="text-blue-600 hover:text-blue-700">
+            <Link to="/terminos" className="text-blue-600 hover:text-blue-700">
               Términos de Servicio
-            </a>{' '}
+            </Link>{' '}
             y{' '}
-            <a href="/privacidad" className="text-blue-600 hover:text-blue-700">
+            <Link to="/privacidad" className="text-blue-600 hover:text-blue-700">
               Política de Privacidad
-            </a>
+            </Link>
           </p>
         </div>
       </div>

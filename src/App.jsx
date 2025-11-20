@@ -1,11 +1,17 @@
-import {RegisterForm} from './components/RegisterForm.jsx'
+
+import { BrowserRouter } from "react-router-dom";
+import { AppRouter } from "./routes/AppRouter.jsx";
+
 import './styles/App.css'
 
 function App() {
- 
+
   return (
     <>
-      <RegisterForm/>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+
     </>
   )
 }

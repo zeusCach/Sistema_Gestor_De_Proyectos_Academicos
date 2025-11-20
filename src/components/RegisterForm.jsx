@@ -2,7 +2,8 @@
 import {SelectField} from './SelectField.jsx'
 import {InputField} from './InputField.jsx'
 import {Button} from './Button.jsx'
-import { LoginForm } from './LoginForm.jsx';
+import { Link } from "react-router-dom";
+
 
 export const RegisterForm = () => {
   const roleOptions = [
@@ -82,9 +83,9 @@ export const RegisterForm = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             ¿Ya tienes cuenta?{' '}
-            <a href={`${LoginForm}`} className="text-blue-600 hover:text-blue-700 font-medium">
+            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
               Inicia sesión aquí
-            </a>
+            </Link>
           </p>
         </div>
       </div>

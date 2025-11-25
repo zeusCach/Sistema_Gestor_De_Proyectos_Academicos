@@ -6,10 +6,6 @@ import { Link } from "react-router-dom";
 
 
 export const RegisterForm = () => {
-  const roleOptions = [
-    { value: 'publicador', label: 'Publicador de Proyectos' },
-    { value: 'visitante', label: 'Visitante/Visualizador' }
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -18,13 +14,6 @@ export const RegisterForm = () => {
           <h2 className="text-3xl font-bold text-gray-900">Registro de Usuario</h2>
           <p className="mt-2 text-sm text-gray-600">Sistema de Gestión de Proyectos Académicos</p>
         </div>
-        
-        <SelectField
-          label="Tipo de Usuario"
-          name="rol"
-          options={roleOptions}
-          required={true}
-        />
 
         <InputField
           label="Nombre Completo"

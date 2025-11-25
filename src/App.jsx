@@ -8,11 +8,11 @@ function App() {
 
   return (
     <>
-   <Dashboard/>
+   {/* <Dashboard/> */}
 
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <AppRouter />
-      </BrowserRouter> */}
+      </BrowserRouter>
 
     </>
   )

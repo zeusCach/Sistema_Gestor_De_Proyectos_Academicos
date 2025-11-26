@@ -1,13 +1,54 @@
 
 import { Checkbox } from './Checkbox.jsx';
-import {InputField} from './InputField.jsx'
-import {Button} from './Button.jsx'
+import { InputField } from './InputField.jsx'
+import { Button } from './Button.jsx'
 
 //react router
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { loginUser } from '../services/auth.js';
 
 
 export const LoginForm = () => {
+
+  const navigate = useNavigate()
+
+  // Estado del formulario
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  // Estado para mensajes de error o éxito
+  const [message, setMessage] = useState("");
+
+  // Funcion para actualizar los campo conforme el usuario escribe
+  const handleChange = (e) => {
+    setForm({
+      ...form, // conserva lo que ya existe en el form
+      [e.target.name]: e.target.value, // actualiza solo el campo que se está escribiendo
+    });
+  };
+
+  // Manejo del login
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setMessage("Ingresando...");
+
+    const { user, error } = await loginUser(form.email, form.password);
+
+    if (error) {
+      setMessage("Error: " + error.message);
+      return;
+    }
+
+    setMessage("¡Bienvenido!");
+
+    // Redirección al dashboard
+    navigate("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
@@ -15,35 +56,49 @@ export const LoginForm = () => {
           <h2 className="text-3xl font-bold text-gray-900">Iniciar Sesión</h2>
           <p className="mt-2 text-sm text-gray-600">Sistema de Gestión de Proyectos Académicos</p>
         </div>
-        
-        <InputField
-          label="Correo Electrónico"
-          type="email"
-          name="email"
-          placeholder="correo@ejemplo.com"
-          required={true}
-        />
 
-        <InputField
-          label="Contraseña"
-          type="password"
-          name="password"
-          placeholder="Ingresa tu contraseña"
-          required={true}
-        />
-
-        <div className="flex items-center justify-between mb-6">
-          <Checkbox 
-            label="Recordarme"
-            name="remember"
+        <form onSubmit={handleSubmit}>
+          <InputField
+            label="Correo Electrónico"
+            type="email"
+            name="email"
+            placeholder="correo@ejemplo.com"
+            required={true}
+            value={form.email}
+            onChange={handleChange}
           />
-          
-          <Link to="/recuperar-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-            ¿Olvidaste tu contraseña?
-          </Link>
-        </div>
 
-        <Button variant="primary">Iniciar Sesión</Button>
+          <InputField
+            label="Contraseña"
+            type="password"
+            name="password"
+            placeholder="Ingresa tu contraseña"
+            required={true}
+            value={form.password}
+            onChange={handleChange}
+          />
+
+          <div className="flex items-center justify-between mb-6">
+            <Checkbox
+              label="Recordarme"
+              name="remember"
+            />
+
+            <Link to="/recuperar-password" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+              ¿Olvidaste tu contraseña?
+            </Link>
+          </div>
+
+          <Button variant="primary">Iniciar Sesión</Button>
+
+          {message && (
+            <p className="text-center text-sm mt-4 text-gray-600">{message}</p>
+          )}
+
+        </form>
+
+
+
 
         <div className="mt-6">
           <div className="relative">

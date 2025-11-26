@@ -1,4 +1,4 @@
-import { supabase } from "../db/supabase_client"
+import supabase from "../db/supabase_client"
 
 //funcion asincrona que registrara usuarios publicadores
 export async function registerUser ({ name, email, password, institution, phone_number }) {
@@ -23,6 +23,7 @@ export async function registerUser ({ name, email, password, institution, phone_
         user_id: userId,
         name,
         email,
+        password,
         institution,
         phone_number,
         user_type_id: null
@@ -33,4 +34,17 @@ export async function registerUser ({ name, email, password, institution, phone_
 
     //succes: true, si los datos se insertan correctamente
     return {success: true}
+}
+
+
+export async function loginUser(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+
+    
+  });
+console.log(email, password);
+
+  return { user: data?.user, error };
 }

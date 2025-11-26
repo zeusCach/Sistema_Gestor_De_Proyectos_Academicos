@@ -31,6 +31,10 @@ export const RegisterForm = () => {
   //Estado para compropbbar si el registro se esta completando
   const [loading, setLoading] = useState(false);
 
+  //Estado para validacion
+  const [errors, setErrors] = useState("");
+  
+
   //Funcion que maneja los cambios escritos en el input del form
   function handleChange(e) {
 
@@ -38,15 +42,38 @@ export const RegisterForm = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
+  function validateForm() {
+    const newErrors = {};
+
+    if (!form.name.trim()) newErrors.name = "El nombre es obligatorio";
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) newErrors.email = "Correo electrónico inválido";
+
+    if (form.password.length < 6)
+      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+
+    if (form.password !== form.confirmPassword)
+      newErrors.confirmPassword = "Las contraseñas no coinciden";
+
+    if (!form.institution.trim())
+      newErrors.institution = "La institución es obligatoria";
+
+    const phoneRegex = /^[0-9\s\-]{7,15}$/;
+    if (form.phone_number && !phoneRegex.test(form.phone_number))
+      newErrors.phone_number = "Formato de teléfono inválido";
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  }
+
   //
   async function handleSubmit(e) {
     e.preventDefault();
     setErrorMsg("");
 
-    if (form.password !== form.confirmPassword) {
-      setErrorMsg("Las contraseñas no coinciden");
-      return;
-    }
+    if(!validateForm()) return;
 
     setLoading(true);
 
@@ -76,6 +103,10 @@ export const RegisterForm = () => {
           <p className="mt-2 text-sm text-gray-600">Sistema de Gestión de Proyectos Académicos</p>
         </div>
 
+        {errorMsg && (
+           <p className="text-red-600 text-center mb-4">{errorMsg}</p>
+        )}
+
         <form onSubmit={handleSubmit}>
 
 
@@ -87,6 +118,7 @@ export const RegisterForm = () => {
             required={true}
             value={form.name}
             onChange={handleChange}
+            error={errors.name}
           />
 
           <InputField
@@ -97,6 +129,7 @@ export const RegisterForm = () => {
             required={true}
             value={form.email}
             onChange={handleChange}
+            error={errors.email}
           />
 
           <InputField
@@ -107,6 +140,7 @@ export const RegisterForm = () => {
             required={true}
             value={form.password}
             onChange={handleChange}
+            error={errors.password}
           />
 
           <InputField
@@ -117,6 +151,7 @@ export const RegisterForm = () => {
             required={true}
             value={form.confirmPassword}
             onChange={handleChange}
+            error={errors.confirmPassword}
           />
 
           {/* Campos adicionales para publicador */}
@@ -131,6 +166,7 @@ export const RegisterForm = () => {
               required={true}
               value={form.institution}
               onChange={handleChange}
+              error={errors.institution}
             />
 
             <InputField
@@ -140,6 +176,7 @@ export const RegisterForm = () => {
               placeholder="999-999-9999"
               value={form.phone_number}
               onChange={handleChange}
+              error={errors.phone_number}
             />
           </div>
 

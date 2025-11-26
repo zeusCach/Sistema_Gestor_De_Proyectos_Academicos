@@ -11,7 +11,7 @@ export const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar userName={user.name} />
+      <Navbar userName=""/>
       <Sidebar activeMenu={activeMenu} />
       
       <main className="ml-64 pt-16">

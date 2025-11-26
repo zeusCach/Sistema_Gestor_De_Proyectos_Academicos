@@ -8,9 +8,9 @@ function App() {
 
   return (
     <>
-   {/* <Dashboard/> */}
+   
 
-      <BrowserRouter>
+    <BrowserRouter>
         <AppRouter />
       </BrowserRouter>
 

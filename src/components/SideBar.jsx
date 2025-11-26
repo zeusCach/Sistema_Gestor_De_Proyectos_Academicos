@@ -1,4 +1,11 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 export const Sidebar = ({ activeMenu }) => {
+
+
+  const {logoutUser} = useContext(AuthContext);
+  
   const menuItems = [
     { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
     { icon: '📁', label: 'Mis Proyectos', id: 'proyectos' },
@@ -38,7 +45,7 @@ export const Sidebar = ({ activeMenu }) => {
             className="flex items-center space-x-3 px-4 py-3 rounded-lg text-blue-100 hover:bg-red-600 transition-colors"
           >
             <span className="text-xl">🚪</span>
-            <span className="font-medium">Cerrar Sesión</span>
+            <span className="font-medium" onClick={logoutUser}>Cerrar Sesión</span>
           </a>
         </div>
       </div>

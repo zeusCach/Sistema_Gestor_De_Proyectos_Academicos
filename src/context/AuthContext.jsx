@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import supabase from "../db/supabase_client";
 
 
@@ -18,25 +18,29 @@ export const AuthProvider = ({ children }) => {
         const getSession = async () => {
 
             const { data } = await supabase.auth.getSession();
-            
+
             //Si existe un usuario logueado devuelve ese usuario si no regresa undefined(null)
             setUser(data?.session?.user || null);
             setLoading(false);
         }
 
         
-    // Escucha cambios (login, logout, refresh)
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        // si existe una sesion devuelve el usuario
-        setUser(session?.user || null);
-      });
+        getSession();
 
-    // Limpieza del listener
-    return () => listener.subscription.unsubscribe();
-    },[]);
 
-    return(
+
+        // Escucha cambios (login, logout, refresh)
+        const { data: listener } = supabase.auth.onAuthStateChange(
+            (_event, session) => {
+                // si existe una sesion devuelve el usuario
+                setUser(session?.user || null);
+            });
+
+        // Limpieza del listener
+        return () => listener.subscription.unsubscribe();
+    }, []);
+
+    return (
 
         //parte central del sistema de autenticación.
         <AuthContext.Provider value={{ user, loading }}>

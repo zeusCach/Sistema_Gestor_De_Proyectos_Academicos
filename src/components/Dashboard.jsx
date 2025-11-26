@@ -3,13 +3,15 @@ import { Navbar } from "./NavBar";
 import { RecentProjects } from "./RecentProjects";
 import { Sidebar } from "./SideBar";
 import { StatCard } from "./statCard";
+import { useAuth } from "../context/AuthContext";
 
 export const Dashboard = () => {
   const [activeMenu] = useState('dashboard');
+  const {user} = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar userName="Juan Pérez" />
+      <Navbar userName={user.name} />
       <Sidebar activeMenu={activeMenu} />
       
       <main className="ml-64 pt-16">

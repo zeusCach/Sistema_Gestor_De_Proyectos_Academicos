@@ -32,7 +32,7 @@ export const Sidebar = ({ activeMenu }) => {
           ))}
         </nav>
         
-        <div className="absolute bottom-8 left-4 right-4">
+        <div className="absolute bottom-20 left-4 right-4">
           <a
             href="#logout"
             className="flex items-center space-x-3 px-4 py-3 rounded-lg text-blue-100 hover:bg-red-600 transition-colors"

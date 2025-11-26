@@ -3,7 +3,7 @@ import supabase from "../db/supabase_client";
 
 
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 
 export const AuthProvider = ({ children }) => {
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
         }
 
-        
+
         getSession();
 
 
@@ -40,10 +40,17 @@ export const AuthProvider = ({ children }) => {
         return () => listener.subscription.unsubscribe();
     }, []);
 
+
+    const logoutUser = async () => {
+        await supabase.auth.signOut();
+        //Modificamos el estado del usuario, pasa a null para cerrar sesion
+        setUser(null)
+    }
+
     return (
 
         //parte central del sistema de autenticación.
-        <AuthContext.Provider value={{ user, loading }}>
+        <AuthContext.Provider value={{ user, loading, logoutUser }}>
             {children}
         </AuthContext.Provider>
     )

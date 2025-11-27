@@ -5,12 +5,13 @@ import { LoginForm } from "../components/LoginForm.jsx";
 import { RegisterForm } from "../components/RegisterForm.jsx";
 import { Dashboard } from "../components/Dashboard.jsx";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
+import { PublicHome } from "../components/PublicHome.jsx";
 
 export const AppRouter = () => {
     return (
         <Routes>
-
-            <Route path="/" element={<LoginForm />} />
+            
+            <Route path="/" element={<PublicHome />} />
 
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />}></Route>

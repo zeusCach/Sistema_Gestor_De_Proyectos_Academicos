@@ -1,4 +1,5 @@
-import { GraduationCap, Link, LogIn } from "lucide-react"; // Usamos Lucide para los iconos en React
+import { GraduationCap, LogIn } from "lucide-react"; // Usamos Lucide para los iconos en React
+import { Link } from "react-router-dom";
 
 /**
  * PublicNavbar
@@ -18,7 +19,7 @@ export const PublicNavbar = () => {
                         </div>
                         <div>
                             <h1 className="font-bold text-lg tracking-tight text-slate-900 leading-tight">
-                                Sistema Gestor de Proyectos Academicos
+                                Sistema Gestor de Proyectos
                             </h1>
                             <p className="text-xs text-slate-500 font-medium">Gestión Académica</p>
                         </div>
@@ -39,12 +40,15 @@ export const PublicNavbar = () => {
 
                     {/* --- BOTÓN DE LOGIN --- */}
                     <div>
-                        <Link to={"/login"} className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm">
-
+                        <Link
+                            to="/login"
+                            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm"
+                        >
+                            <LogIn size={18} />
                             <span>Acceso Administrativo</span>
                         </Link>
-
                     </div>
+
 
                 </div>
             </div>

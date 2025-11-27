@@ -11,7 +11,6 @@ export const Sidebar = ({ activeMenu }) => {
   const menuItems = [
     { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
     { icon: '📁', label: 'Mis Proyectos', id: 'proyectos' },
-    { icon: '➕', label: 'Nuevo Proyecto', id: 'nuevo' },
     { icon: '📊', label: 'Estadísticas', id: 'estadisticas' },
     { icon: '⚙️', label: 'Configuración', id: 'configuracion' },
   ];

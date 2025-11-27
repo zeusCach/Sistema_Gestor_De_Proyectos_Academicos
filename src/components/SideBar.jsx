@@ -41,7 +41,7 @@ export const Sidebar = ({ activeMenu }) => {
 
         <div className="absolute bottom-20 left-4 right-4">
 
-          <Link to="/login" className="flex items-center space-x-3 px-4 py-3 rounded-lg text-blue-100 hover:bg-red-600 transition-colors">
+          <Link to="/PublicHome" className="flex items-center space-x-3 px-4 py-3 rounded-lg text-blue-100 hover:bg-red-600 transition-colors">
             <span className="font-medium" onClick={logoutUser}>Cerrar Sesión</span>
           </Link>
           

@@ -23,10 +23,9 @@ export async function registerUser ({ name, email, password, institution, phone_
         user_id: userId,
         name,
         email,
-        password,
         institution,
         phone_number,
-        user_type_id: null
+        user_type_id: 1
     }]);
 
     // si existe un error en la insercion de los datos, devuelve el error

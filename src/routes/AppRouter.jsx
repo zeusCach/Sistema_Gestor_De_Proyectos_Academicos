@@ -15,6 +15,8 @@ export const AppRouter = () => {
 
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />}></Route>
+            <Route path="/PublicHome" element={<PublicHome/>}></Route>
+            
 
             {/* Protejemos el dashboard con ProtectedRoute para que solo
              usuarios logueados pueden entrar al dashboard

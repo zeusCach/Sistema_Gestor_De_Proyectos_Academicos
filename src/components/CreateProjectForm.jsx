@@ -3,10 +3,9 @@ import supabase from "../db/supabase_client";
 import { useAuth } from "../context/AuthContext";
 
 export const CreateProjectForm = ({ onClose }) => {
-
   //estado derivado que trabaja sobre la autenticacion del usuario(context)
   const { user } = useAuth();
-
+  
   //estado que controla los campos de nuestra bd en la tabla projects
   const [form, setForm] = useState({
     folio: "",
@@ -18,19 +17,16 @@ export const CreateProjectForm = ({ onClose }) => {
     academic_area: "",
     start_date: "",
     estimated_end: "",
-    budget: "",
     duration_weeks: "",
   });
 
   //estado para manejos de errores
   const [errors, setErrors] = useState({});
 
-  
   // VALIDACIONES
-
   const validateField = (name, value) => {
     let message = "";
-
+    
     if (!value.trim()) {
       message = "Este campo es obligatorio.";
     } else {
@@ -38,12 +34,8 @@ export const CreateProjectForm = ({ onClose }) => {
       if (name === "duration_weeks" && isNaN(value)) {
         message = "Debes ingresar un número válido.";
       }
-
-      if (name === "budget" && isNaN(value)) {
-        message = "El presupuesto debe ser numérico.";
-      }
     }
-
+    
     setErrors(prev => ({ ...prev, [name]: message }));
   };
 
@@ -60,13 +52,11 @@ export const CreateProjectForm = ({ onClose }) => {
     );
   };
 
-  
   // ENVIAR FORMULARIO
-
   const handleSubmit = async (e) => {
     //setea nuestro formulario para que no se envie cada vez que se recargue la pagina
     e.preventDefault();
-
+    
     //si los datos no son validos, nos da la alerta
     if (!isFormValid()) {
       alert("Por favor completa todos los campos antes de guardar.");
@@ -95,10 +85,9 @@ export const CreateProjectForm = ({ onClose }) => {
     onClose();
   };
 
-//UI
+  //UI
   return (
-    <div className="bg-white  flex flex-col w-full " style={{ fontFamily: 'Roboto, sans-serif' }}>
- 
+    <div className="bg-white flex flex-col w-full" style={{ fontFamily: 'Roboto, sans-serif' }}>
       <div className="px-8 py-6 border-b border-gray-200" style={{ backgroundColor: '#1A386A' }}>
         <div className="flex justify-between items-center">
           <div>
@@ -117,17 +106,15 @@ export const CreateProjectForm = ({ onClose }) => {
         </div>
       </div>
 
-     
       <div className="flex-1 overflow-y-auto px-8 py-6">
         <div className="space-y-6">
-
           {/* INFORMACIÓN BÁSICA */}
           <div>
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#1A386A' }}>
               Información Básica
             </h3>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               {/* Folio */}
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
@@ -140,8 +127,8 @@ export const CreateProjectForm = ({ onClose }) => {
                   onChange={handleChange}
                   placeholder="Ej: PRY-2024-001"
                   className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
-                    errors.folio 
-                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200" 
+                    errors.folio
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                       : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
                   }`}
                   style={{ fontFamily: 'Roboto, sans-serif' }}
@@ -151,62 +138,43 @@ export const CreateProjectForm = ({ onClose }) => {
                 )}
               </div>
 
-              {/* Presupuesto */}
+              {/* Título - Full Width */}
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
-                  Presupuesto
+                  Título del Proyecto <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-2.5 font-medium" style={{ color: '#666666' }}>$</span>
-                  <input
-                    type="text"
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    placeholder="0.00"
-                    className="w-full pl-8 pr-4 py-2.5 border border-gray-300 rounded-lg focus:border-blue-900 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
-                    style={{ fontFamily: 'Roboto, sans-serif' }}
-                  />
-                </div>
+                <input
+                  type="text"
+                  name="title"
+                  value={form.title}
+                  onChange={handleChange}
+                  placeholder="Nombre descriptivo del proyecto"
+                  className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
+                    errors.title
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
+                  }`}
+                  style={{ fontFamily: 'Roboto, sans-serif' }}
+                />
+                {errors.title && (
+                  <p className="text-red-500 text-xs mt-1.5">{errors.title}</p>
+                )}
               </div>
-            </div>
 
-            {/* Título - Full Width */}
-            <div className="mt-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
-                Título del Proyecto <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="title"
-                value={form.title}
-                onChange={handleChange}
-                placeholder="Nombre descriptivo del proyecto"
-                className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
-                  errors.title 
-                    ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200" 
-                    : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
-                }`}
-                style={{ fontFamily: 'Roboto, sans-serif' }}
-              />
-              {errors.title && (
-                <p className="text-red-500 text-xs mt-1.5">{errors.title}</p>
-              )}
-            </div>
-
-            {/* Descripción */}
-            <div className="mt-6">
-              <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
-                Descripción
-              </label>
-              <textarea
-                name="description"
-                value={form.description}
-                onChange={handleChange}
-                placeholder="Describe brevemente el proyecto..."
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg h-24 resize-none focus:border-blue-900 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
-                style={{ fontFamily: 'Roboto, sans-serif' }}
-              />
+              {/* Descripción */}
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
+                  Descripción
+                </label>
+                <textarea
+                  name="description"
+                  value={form.description}
+                  onChange={handleChange}
+                  placeholder="Describe brevemente el proyecto..."
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg h-24 resize-none focus:border-blue-900 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                  style={{ fontFamily: 'Roboto, sans-serif' }}
+                />
+              </div>
             </div>
           </div>
 
@@ -215,7 +183,6 @@ export const CreateProjectForm = ({ onClose }) => {
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#1A386A' }}>
               Objetivos
             </h3>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
@@ -230,7 +197,6 @@ export const CreateProjectForm = ({ onClose }) => {
                   style={{ fontFamily: 'Roboto, sans-serif' }}
                 />
               </div>
-
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
                   Objetivo Específico
@@ -252,36 +218,61 @@ export const CreateProjectForm = ({ onClose }) => {
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#1A386A' }}>
               Categorización
             </h3>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Tipo de Proyecto */}
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
-                  Tipo de Proyecto
+                  Tipo de Proyecto <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
+                <select
                   name="project_type"
                   value={form.project_type}
                   onChange={handleChange}
-                  placeholder="ID del tipo"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-blue-900 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                  className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
+                    errors.project_type
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
+                  }`}
                   style={{ fontFamily: 'Roboto, sans-serif' }}
-                />
+                >
+                  <option value="">Seleccione un tipo</option>
+                  <option value="Académico">Académico</option>
+                  <option value="Investigación">Investigación</option>
+                  <option value="Servicio Social">Servicio Social</option>
+                  <option value="Administrativo">Administrativo</option>
+                </select>
+                {errors.project_type && (
+                  <p className="text-red-500 text-xs mt-1.5">{errors.project_type}</p>
+                )}
               </div>
 
+              {/* Área Académica */}
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
-                  Área Académica
+                  Área Académica <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
+                <select
                   name="academic_area"
                   value={form.academic_area}
                   onChange={handleChange}
-                  placeholder="ID del área"
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:border-blue-900 focus:ring-2 focus:ring-blue-100 transition-all duration-200"
+                  className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
+                    errors.academic_area
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
+                  }`}
                   style={{ fontFamily: 'Roboto, sans-serif' }}
-                />
+                >
+                  <option value="">Seleccione un área</option>
+                  <option value="Ingeniería en Sistemas Computacionales">Ingeniería en Sistemas Computacionales</option>
+                  <option value="Ingeniería Industrial">Ingeniería Industrial</option>
+                  <option value="Ingeniería en Administración">Ingeniería en Administración</option>
+                  <option value="Ingeniería en Gestión Empresarial">Ingeniería en Gestión Empresarial</option>
+                  <option value="Ingeniería en Industrias Alimentarias">Ingeniería en Industrias Alimentarias</option>
+                  <option value="Ingeniería en Desarrollo Comunitario">Ingeniería en Desarrollo Comunitario</option>
+                </select>
+                {errors.academic_area && (
+                  <p className="text-red-500 text-xs mt-1.5">{errors.academic_area}</p>
+                )}
               </div>
             </div>
           </div>
@@ -291,7 +282,6 @@ export const CreateProjectForm = ({ onClose }) => {
             <h3 className="text-lg font-semibold mb-4" style={{ color: '#1A386A' }}>
               Planificación Temporal
             </h3>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
@@ -303,8 +293,8 @@ export const CreateProjectForm = ({ onClose }) => {
                   value={form.start_date}
                   onChange={handleChange}
                   className={`w-full px-4 py-2.5 border rounded-lg transition-all duration-200 ${
-                    errors.start_date 
-                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200" 
+                    errors.start_date
+                      ? "border-red-400 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200"
                       : "border-gray-300 bg-white focus:border-blue-900 focus:ring-2 focus:ring-blue-100"
                   }`}
                   style={{ fontFamily: 'Roboto, sans-serif' }}
@@ -344,11 +334,9 @@ export const CreateProjectForm = ({ onClose }) => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      
       <div className="px-8 py-4 bg-gray-50 border-t border-gray-200 flex justify-end gap-3">
         <button
           onClick={onClose}
@@ -365,7 +353,7 @@ export const CreateProjectForm = ({ onClose }) => {
               ? "text-white hover:opacity-90 shadow-md"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
-          style={{ 
+          style={{
             fontFamily: 'Roboto, sans-serif',
             backgroundColor: isFormValid() ? '#1A386A' : undefined
           }}
@@ -373,9 +361,6 @@ export const CreateProjectForm = ({ onClose }) => {
           Guardar Proyecto
         </button>
       </div>
-
     </div>
   );
-
-  
 };

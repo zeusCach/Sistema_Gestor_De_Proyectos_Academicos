@@ -3,6 +3,7 @@ import { Search, FolderOpen } from "lucide-react";
 import { PublicNavbar } from "./PublicNavbar";
 import { HeroStats } from "./HeroStats";
 import { ProjectCard } from "./ProjectCard";
+import { useProjects } from "../hooks/useProjects";
 
 /**
  * PublicHome
@@ -11,64 +12,11 @@ import { ProjectCard } from "./ProjectCard";
  */
 export const PublicHome = () => {
   
-  // 1. ESTADO: Datos de proyectos (Simulación de DB)
-  const [projects] = useState([
-    {
-      id: 1,
-      title: "Desarrollo de IA para detección de plagas",
-      description: "Implementación de redes neuronales convolucionales para identificar plagas en cultivos locales mediante drones.",
-      area: "Investigación",
-      type: "Interno",
-      status: "En Curso",
-      date: "2023-10-15"
-    },
-    {
-      id: 2,
-      title: "Campaña de Alfabetización Digital Rural",
-      description: "Programa de vinculación comunitaria para llevar educación tecnológica a zonas rurales del estado.",
-      area: "Vinculación",
-      type: "Externo",
-      status: "Vigente",
-      date: "2024-01-10"
-    },
-    {
-      id: 3,
-      title: "Optimización de Procesos Administrativos",
-      description: "Análisis y reestructuración de los flujos de trabajo internos para reducir tiempos de respuesta.",
-      area: "Investigación",
-      type: "Interno",
-      status: "Finalizado",
-      date: "2023-05-20"
-    },
-    {
-      id: 4,
-      title: "Sistema de Riego Automatizado IoT",
-      description: "Prototipo funcional utilizando Arduino y sensores de humedad para optimizar el uso del agua.",
-      area: "Investigación",
-      type: "Interno",
-      status: "Pausado",
-      date: "2023-11-01"
-    },
-    {
-      id: 5,
-      title: "Feria de Emprendimiento Universitario",
-      description: "Organización y logística para conectar estudiantes con empresas del sector privado.",
-      area: "Vinculación",
-      type: "Interno",
-      status: "Vigente",
-      date: "2024-02-15"
-    },
-    {
-      id: 6,
-      title: "Estudio de Impacto Ambiental 2024",
-      description: "Evaluación de la huella de carbono del campus central y propuestas de mitigación.",
-      area: "Investigación",
-      type: "Externo",
-      status: "En Curso",
-      date: "2024-03-01"
-    }
-  ]);
+  // 1. ESTADO: Datos de proyectos LLamando al Hook
+  const { projects, loading, error } = useProjects();
+  
 
+  
   // 2. ESTADO: Filtros
   const [searchTerm, setSearchTerm] = useState("");
   const [areaFilter, setAreaFilter] = useState("all");

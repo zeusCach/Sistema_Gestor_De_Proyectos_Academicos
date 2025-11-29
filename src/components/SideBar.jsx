@@ -11,7 +11,7 @@ export const Sidebar = ({ activeMenu }) => {
   const menuItems = [
     { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
     { icon: '📁', label: 'Mis Proyectos', id: 'proyectos' },
-    { icon: '📊', label: 'Estadísticas', id: 'estadisticas' },
+    { icon: '📊', label: 'Estadísticass', id: 'estadisticas' },
     { icon: '⚙️', label: 'Configuración', id: 'configuracion' },
   ];
 
@@ -25,9 +25,9 @@ export const Sidebar = ({ activeMenu }) => {
 
         <nav className="space-y-2">
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.id}
-              href={`#${item.id}`}
+              to={`${item.id}`}
               className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${activeMenu === item.id
                   ? 'bg-blue-800 text-white'
                   : 'text-blue-100 hover:bg-blue-800'
@@ -35,7 +35,7 @@ export const Sidebar = ({ activeMenu }) => {
             >
               <span className="text-xl">{item.icon}</span>
               <span className="font-medium">{item.label}</span>
-            </a>
+            </Link>
           ))}
         </nav>
 

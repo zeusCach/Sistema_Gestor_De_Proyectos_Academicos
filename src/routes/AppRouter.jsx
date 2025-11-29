@@ -8,13 +8,17 @@ import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import { PublicHome } from "../components/PublicHome.jsx";
 import { StatisticsView } from "../components/statistics/StatisticsView.jsx";
 import { DashboardHome } from '../components/DashboardHome';
+import UnderConstructionPage from "../components/UnderConstructionPage.jsx";
 
 export const AppRouter = () => {
     return (
         <Routes>
 
             {/* Ruta raíz - redirige al dashboard */}
-            <Route path="/" element={<Navigate to="/home" replace />} />
+            {/* <Route path="/" element={<Navigate to="/home" replace />} /> */}
+
+             {/* TEMPORAL: Todo redirige a construcción */}
+            <Route path="*" element={<UnderConstructionPage />} />
 
 
             {/* Rutas públicas */}

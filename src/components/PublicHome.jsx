@@ -123,7 +123,7 @@ export const PublicHome = () => {
       {/* FOOTER */}
       <footer className="bg-white border-t border-gray-200 py-8 mt-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-slate-500 text-sm">© 2024 Universidad - Sistema de Gestión de Proyectos Académicos.</p>
+          <p className="text-slate-500 text-sm">© 2025 Universidad - Sistema de Gestión de Proyectos Académicos.</p>
         </div>
       </footer>
 

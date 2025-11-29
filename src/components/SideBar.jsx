@@ -1,18 +1,18 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Sidebar = ({ activeMenu }) => {
 
-  const navigate = useNavigate()
+  const location = useLocation();
 
   const { logoutUser } = useContext(AuthContext);
 
-  const menuItems = [
-    { icon: '🏠', label: 'Dashboard', id: 'dashboard' },
-    { icon: '📁', label: 'Mis Proyectos', id: 'proyectos' },
-    { icon: '📊', label: 'Estadísticass', id: 'estadisticas' },
-    { icon: '⚙️', label: 'Configuración', id: 'configuracion' },
+   const menuItems = [
+    { icon: '🏠', label: 'Dashboard', id: 'dashboard', path: '/dashboard' },
+    { icon: '📁', label: 'Mis Proyectos', id: 'proyectos', path: '/dashboard/proyectos' },
+    { icon: '📊', label: 'Estadísticas', id: 'estadisticas', path: '/dashboard/estadisticas' },
+    { icon: '⚙️', label: 'Configuración', id: 'configuracion', path: '/dashboard/configuracion' },
   ];
 
   return (
@@ -27,8 +27,8 @@ export const Sidebar = ({ activeMenu }) => {
           {menuItems.map((item) => (
             <Link
               key={item.id}
-              to={`${item.id}`}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${activeMenu === item.id
+              to={`${item.path}`}
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${location.pathname === item.path
                   ? 'bg-blue-800 text-white'
                   : 'text-blue-100 hover:bg-blue-800'
                 }`}

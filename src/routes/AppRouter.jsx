@@ -14,11 +14,11 @@ export const AppRouter = () => {
         <Routes>
 
             {/* Ruta raíz - redirige al dashboard */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
 
 
             {/* Rutas públicas */}
-            <Route path="/PublicHome" element={<PublicHome />} />
+            <Route path="/home" element={<PublicHome />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
 

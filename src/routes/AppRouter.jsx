@@ -6,6 +6,7 @@ import { RegisterForm } from "../components/RegisterForm.jsx";
 import { Dashboard } from "../components/Dashboard.jsx";
 import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import { PublicHome } from "../components/PublicHome.jsx";
+import { StatisticsView } from "../components/statistics/StatisticsView.jsx";
 
 export const AppRouter = () => {
     return (
@@ -16,7 +17,7 @@ export const AppRouter = () => {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />}></Route>
             <Route path="/PublicHome" element={<PublicHome/>}></Route>
-            
+            <Route path="/dashboard/estadisticas" element={<StatisticsView/>}></Route>            
 
             {/* Protejemos el dashboard con ProtectedRoute para que solo
              usuarios logueados pueden entrar al dashboard

@@ -8,7 +8,7 @@ import { ProtectedRoute } from "./ProtectedRoute.jsx";
 import { PublicHome } from "../components/PublicHome.jsx";
 import { StatisticsView } from "../components/statistics/StatisticsView.jsx";
 import { DashboardHome } from '../components/DashboardHome';
-import { ProjectDetailView } from "../components/projectDetail/ProjectDetailView.jsx";
+import { ProjectsView } from "../components/projects/ProjectsView.jsx";
 
 export const AppRouter = () => {
     return (
@@ -37,7 +37,7 @@ export const AppRouter = () => {
                 {/* Rutas anidadas dentro del Dashboard */}
                 <Route index element={<DashboardHome />} />
                 <Route path="estadisticas" element={<StatisticsView />} />
-                {/* <Route path="proyectos" element={<MisProyectos />} /> */}
+                <Route path="proyectos" element={<ProjectsView/>} />
                 {/* <Route path="configuracion" element={<Configuracion />} /> */}
             </Route>
         </Routes>

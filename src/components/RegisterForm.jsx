@@ -20,7 +20,7 @@ export const RegisterForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      institution: ""
+      institution: "",
     }
   )
 
@@ -80,8 +80,7 @@ export const RegisterForm = () => {
       name: form.name,
       email: form.email,
       password: form.password,
-      institution: form.institution
-      
+      institution: form.institution,
     });
 
     setLoading(false);
@@ -168,15 +167,6 @@ export const RegisterForm = () => {
               error={errors.institution}
             />
 
-            <InputField
-              label="Teléfono (Opcional)"
-              type="tel"
-              name="phone_number"
-              placeholder="999-999-9999"
-              value={form.phone_number}
-              onChange={handleChange}
-              error={errors.phone_number}
-            />
           </div>
 
           <Button variant="primary" disabled={loading}>

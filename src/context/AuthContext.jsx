@@ -57,5 +57,15 @@ export const AuthProvider = ({ children }) => {
 
 }
 
+
 // Hook para usar el contexto más fácil
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    
+    // Validación para prevenir uso fuera del Provider
+    if (context === undefined) {
+        throw new Error('useAuth debe ser usado dentro de un AuthProvider');
+    }
+    
+    return context;
+};

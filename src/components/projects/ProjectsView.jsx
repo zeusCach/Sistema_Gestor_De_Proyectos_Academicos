@@ -3,9 +3,18 @@ import { DeleteConfirmModal } from "./buttons/DeleteConfirmModal";
 import { ProjectCardAdmin } from "./cards/ProjectCardAdmin";
 import { ProjectFilters } from "./filters/ProjectFilters";
 import { MOCK_PROJECTS } from "./constants/constants_proyects";
+import { useAuth } from "../../context/AuthContext";
+import { fetchProjects } from "../../services/projectsService";
 
 export const ProjectsView = () => {
-  const [projects, setProjects] = useState(MOCK_PROJECTS);
+  
+
+  //estado de autenticacion de usuario
+  const {user} = useAuth();
+
+  //Estado que inicializa nuestros projects
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     search: '',
     status: '',
@@ -14,19 +23,25 @@ export const ProjectsView = () => {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [editingProject, setEditingProject] = useState(null);
 
-  // TÚ: Aquí cargarías los proyectos desde Supabase
+  
   useEffect(() => {
-    // const fetchProjects = async () => {
-    //   const { data, error } = await supabase
-    //     .from('projects')
-    //     .select('*')
-    //     .eq('advisor_user_id', user.id) // Solo proyectos del usuario
-    //     .order('created_at', { ascending: false });
-    //   
-    //   if (!error) setProjects(data);
-    // };
-    // fetchProjects();
-  }, []);
+    if(!user) return;
+
+    const loadProjects = async () => {
+      try {
+                const data = await fetchProjects(user.id);
+                setProjects(data);
+            } catch (err) {
+                console.error("Error al cargar proyectos:", err);
+            } finally {
+                setLoading(false);
+            }
+
+    }
+
+    loadProjects();
+
+  }, [user]);
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = 
@@ -64,6 +79,8 @@ export const ProjectsView = () => {
   const clearFilters = () => {
     setFilters({ search: '', status: '', type: '' });
   };
+
+   if (loading) return <p>Cargando proyectos...</p>;
 
   return (
     <div className="p-8">

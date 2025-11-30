@@ -9,6 +9,7 @@ import { PublicHome } from "../components/PublicHome.jsx";
 import { StatisticsView } from "../components/statistics/StatisticsView.jsx";
 import { DashboardHome } from '../components/DashboardHome';
 import { ProjectsView } from "../components/projects/ProjectsView.jsx";
+import {ProjectDetailView} from "../components/projectDetail/ProjectDetailView.jsx"
 
 export const AppRouter = () => {
     return (

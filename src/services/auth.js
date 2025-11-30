@@ -1,7 +1,7 @@
 import supabase from "../db/supabase_client"
 
 //funcion asincrona que registrara usuarios publicadores
-export async function registerUser ({ name, email, password, institution, phone_number }) {
+export async function registerUser ({ name, email, password, institution}) {
 
     //crea autenticacion con supabase por medio de el email y el password
     const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -24,8 +24,6 @@ export async function registerUser ({ name, email, password, institution, phone_
         name,
         email,
         institution,
-        phone_number,
-        user_type_id: 1
     }]);
 
     // si existe un error en la insercion de los datos, devuelve el error

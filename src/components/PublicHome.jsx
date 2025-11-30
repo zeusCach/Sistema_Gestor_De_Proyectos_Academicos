@@ -3,7 +3,9 @@ import { Search, FolderOpen } from "lucide-react";
 import { PublicNavbar } from "./PublicNavbar";
 import { HeroStats } from "./HeroStats";
 import { ProjectCard } from "./ProjectCard";
+import { ProjectDetailView } from "./projectDetail/ProjectDetailView";
 import { useProjects } from "../hooks/useProjects";
+import { getProjectById } from "../db/projects";
 
 /**
  * PublicHome
@@ -11,23 +13,26 @@ import { useProjects } from "../hooks/useProjects";
  * Aquí reside el estado de los datos, los filtros y el cálculo de estadísticas.
  */
 export const PublicHome = () => {
-  
+
   // 1. ESTADO: Datos de proyectos LLamando al Hook
   const { projects, loading, error } = useProjects();
-  
 
-  
-  // 2. ESTADO: Filtros
+  // 2. ESTADO: Proyecto seleccionado para vista detallada Nuevo
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+
+
+  // 3. ESTADO: Filtros
   const [searchTerm, setSearchTerm] = useState("");
   const [areaFilter, setAreaFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  // 3. LÓGICA: Filtrado de proyectos
+  // 4. LÓGICA: Filtrado de proyectos
   // Usamos useMemo para que esto solo se recalcule si cambian los filtros o los datos
   const filteredProjects = useMemo(() => {
     return projects.filter(project => {
-      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            project.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesArea = areaFilter === 'all' || project.area === areaFilter;
       const matchesStatus = statusFilter === 'all' || project.status === statusFilter;
 
@@ -35,7 +40,7 @@ export const PublicHome = () => {
     });
   }, [projects, searchTerm, areaFilter, statusFilter]);
 
-  // 4. LÓGICA: Cálculo de estadísticas
+  // 5. LÓGICA: Cálculo de estadísticas
   // También memorizado para eficiencia
   const stats = useMemo(() => {
     return {
@@ -46,10 +51,46 @@ export const PublicHome = () => {
     };
   }, [projects]);
 
+  // 6. HANDLER: Manejar click en tarjeta ⬅️ NUEVO
+  const handleProjectClick = async (projectId) => {
+    try {
+      setLoadingDetail(true);
+      const projectDetails = await getProjectById(projectId);
+      setSelectedProject(projectDetails);
+    } catch (err) {
+      console.error("Error cargando detalles:", err);
+      alert('Error al cargar los detalles del proyecto. Intenta nuevamente.');
+    } finally {
+      setLoadingDetail(false);
+    }
+  };
+
+  // 7. VISTA: Si hay proyecto seleccionado, mostrar vista detallada ⬅️ NUEVO
+  if (selectedProject) {
+    return (
+      <ProjectDetailView
+        project={selectedProject}
+        onBack={() => setSelectedProject(null)}
+      />
+    );
+  }
+
+  // 8. VISTA: Loading de detalles ⬅️ NUEVO
+  if (loadingDetail) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-slate-600">Cargando detalles del proyecto...</p>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="bg-gray-50 text-slate-800 min-h-screen font-sans">
-      
+
       {/* Componente Navbar */}
       <PublicNavbar />
 
@@ -58,16 +99,16 @@ export const PublicHome = () => {
 
       {/* --- SECCIÓN PRINCIPAL --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="proyectos">
-        
+
         {/* Barra de Herramientas (Filtros) */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-8 bg-white p-4 rounded-xl border border-gray-200 shadow-sm sticky top-20 z-40">
-          
+
           {/* Buscador */}
           <div className="relative w-full md:w-96">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input 
-              type="text" 
-              placeholder="Buscar por título..." 
+            <input
+              type="text"
+              placeholder="Buscar por título..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-shadow"
@@ -76,7 +117,7 @@ export const PublicHome = () => {
 
           {/* Selects de Filtro */}
           <div className="flex flex-wrap gap-2 w-full md:w-auto justify-end">
-            <select 
+            <select
               value={areaFilter}
               onChange={(e) => setAreaFilter(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
@@ -86,7 +127,7 @@ export const PublicHome = () => {
               <option value="Vinculación">Vinculación</option>
             </select>
 
-            <select 
+            <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-lg text-sm bg-gray-50 text-slate-700 focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer"
@@ -104,7 +145,7 @@ export const PublicHome = () => {
         {filteredProjects.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
             {filteredProjects.map(project => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} onClick={() => handleProjectClick(project.id)} />
             ))}
           </div>
         ) : (

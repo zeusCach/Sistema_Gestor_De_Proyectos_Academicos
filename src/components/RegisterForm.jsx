@@ -20,8 +20,7 @@ export const RegisterForm = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      institution: "",
-      phone_number: ""
+      institution: ""
     }
   )
 
@@ -81,8 +80,8 @@ export const RegisterForm = () => {
       name: form.name,
       email: form.email,
       password: form.password,
-      institution: form.institution,
-      phone_number: form.phone_number
+      institution: form.institution
+      
     });
 
     setLoading(false);

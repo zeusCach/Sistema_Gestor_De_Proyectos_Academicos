@@ -1,6 +1,6 @@
 //Rutas
 
-import { Route, Routes, Navigate  } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { LoginForm } from "../components/LoginForm.jsx";
 import { RegisterForm } from "../components/RegisterForm.jsx";
 import { Dashboard } from "../components/Dashboard.jsx";
@@ -9,7 +9,8 @@ import { PublicHome } from "../components/PublicHome.jsx";
 import { StatisticsView } from "../components/statistics/StatisticsView.jsx";
 import { DashboardHome } from '../components/DashboardHome';
 import { ProjectsView } from "../components/projects/ProjectsView.jsx";
-import {ProjectDetailView} from "../components/projectDetail/ProjectDetailView.jsx"
+import { ProjectDetailView } from "../components/projectDetail/ProjectDetailView.jsx"
+import ProfileConfiguration from "../components/profileComponent/ProfileConfiguration.jsx";
 
 export const AppRouter = () => {
     return (
@@ -38,8 +39,8 @@ export const AppRouter = () => {
                 {/* Rutas anidadas dentro del Dashboard */}
                 <Route index element={<DashboardHome />} />
                 <Route path="estadisticas" element={<StatisticsView />} />
-                <Route path="proyectos" element={<ProjectsView/>} />
-                {/* <Route path="configuracion" element={<Configuracion />} /> */}
+                <Route path="proyectos" element={<ProjectsView />} />
+                <Route path="configuracion" element={<ProfileConfiguration/>} /> */
             </Route>
         </Routes>
     )

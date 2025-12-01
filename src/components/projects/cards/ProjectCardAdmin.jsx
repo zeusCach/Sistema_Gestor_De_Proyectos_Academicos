@@ -92,7 +92,7 @@ export const ProjectCardAdmin = ({ project, onEdit, onDelete, onChangeStatus }) 
                 <button
                   key={status}
                   onClick={() => {
-                    onChangeStatus(project.id, status);
+                    onChangeStatus(project.project_id, status);
                     setShowStatusMenu(false);
                   }}
                   className={`w-full px-4 py-2 text-left text-sm hover:bg-gray-50 ${
@@ -135,7 +135,7 @@ export const ProjectCardAdmin = ({ project, onEdit, onDelete, onChangeStatus }) 
       <div className="px-5 py-4 bg-gray-50 border-t border-gray-100 rounded-b-xl flex justify-between items-center text-xs text-slate-500">
         <div className="flex items-center gap-1">
           <Calendar size={16} />
-          <span>Inicio: {project.date}</span>
+          <span>Inicio: {project.creation_date}</span>
         </div>
         <div className="flex items-center gap-1">
           <Tag size={16} />

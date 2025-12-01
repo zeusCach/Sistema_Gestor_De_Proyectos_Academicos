@@ -1,12 +1,23 @@
-export const StatCard = ({ icon, title, value, color }) => {
+export const StatCard = ({ title, value, color, subtitle }) => {
   return (
-    <div className="bg-white rounded-lg shadow p-6 border-l-4" style={{ borderColor: color }}>
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-600 font-medium">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{value}</p>
-        </div>
-        <div className="text-4xl">{icon}</div>
+    <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+        <div 
+          className="w-2 h-2 rounded-full" 
+          style={{ backgroundColor: color }}
+        />
+      </div>
+      <div className="flex items-baseline gap-2">
+        <p 
+          className="text-3xl font-bold" 
+          style={{ color: color }}
+        >
+          {value}
+        </p>
+        {subtitle && (
+          <span className="text-xs text-gray-500">{subtitle}</span>
+        )}
       </div>
     </div>
   );

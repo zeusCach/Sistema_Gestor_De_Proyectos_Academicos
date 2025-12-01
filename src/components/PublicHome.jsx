@@ -14,6 +14,16 @@ import { getProjectById } from "../db/projects";
  */
 export const PublicHome = () => {
 
+  // Función auxiliar para normalizar strings (case-insensitive)
+  const normalizeString = (str) => {
+    if (!str) return '';
+    return str
+      .toLowerCase()
+      .trim()
+      .normalize("NFD")                    // Descompone los caracteres con tilde
+      .replace(/[\u0300-\u036f]/g, "");   // Elimina las tildes
+  };
+
   // 1. ESTADO: Datos de proyectos LLamando al Hook
   const { projects, loading, error } = useProjects();
 
@@ -31,23 +41,32 @@ export const PublicHome = () => {
   // Usamos useMemo para que esto solo se recalcule si cambian los filtros o los datos
   const filteredProjects = useMemo(() => {
     return projects.filter(project => {
-      const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        project.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesArea = areaFilter === 'all' || project.area === areaFilter;
-      const matchesStatus = statusFilter === 'all' || project.status === statusFilter;
+      const matchesSearch =
+        normalizeString(project.title).includes(normalizeString(searchTerm)) ||
+        normalizeString(project.description).includes(normalizeString(searchTerm));
+
+      const matchesArea =
+        areaFilter === 'all' ||
+        normalizeString(project.area) === normalizeString(areaFilter);
+
+      const matchesStatus =
+        statusFilter === 'all' ||
+        normalizeString(project.status) === normalizeString(statusFilter);
 
       return matchesSearch && matchesArea && matchesStatus;
     });
   }, [projects, searchTerm, areaFilter, statusFilter]);
+
+
 
   // 5. LÓGICA: Cálculo de estadísticas
   // También memorizado para eficiencia
   const stats = useMemo(() => {
     return {
       total: projects.length,
-      vigentes: projects.filter(p => p.status === 'Vigente').length,
-      enCurso: projects.filter(p => p.status === 'En Curso').length,
-      finalizados: projects.filter(p => p.status === 'Finalizado').length,
+      vigentes: projects.filter(p => normalizeString(p.status) === 'vigente').length,
+      enCurso: projects.filter(p => normalizeString(p.status) === 'en curso').length,
+      finalizados: projects.filter(p => normalizeString(p.status) === 'finalizado').length,
     };
   }, [projects]);
 

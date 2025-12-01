@@ -1,6 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Logo_isc from "../../assets/Logo_isc.png"; // CORRECTO
-import logo_TecNM from "../../assets/logo_TecNM.png"; // CORRECTO
+import logo_TecNM from "../../assets/Logo_TecNM.png"; // CORRECTO
 import logo_educacion from "../../assets/logo_educacion.png"; // CORRECTO
 
 /**

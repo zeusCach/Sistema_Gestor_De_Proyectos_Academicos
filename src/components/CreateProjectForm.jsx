@@ -12,6 +12,7 @@ export const CreateProjectForm = ({ onClose }) => {
     folio: "",
     title: "",
     description: "",
+    collaborators: "",
     general_objective: "",
     specific_objectives: "",
     type: "",
@@ -44,7 +45,7 @@ export const CreateProjectForm = ({ onClose }) => {
   const validateField = (name, value) => {
     let message = "";
 
-    if (!value.trim()) {
+    if (name !== "collaborators" && !value.trim()) {
       message = "Este campo es obligatorio.";
     }
 
@@ -58,8 +59,12 @@ export const CreateProjectForm = ({ onClose }) => {
   };
 
   const isFormValid = () => {
+
+     // Filtrar collaborators de la validación obligatoria
+    const { collaborators, ...requiredFields } = form;
+    
     return (
-      Object.values(form).every((v) => v.trim() !== "") &&
+      Object.values(requiredFields).every((v) => v.trim() !== "") &&
       Object.values(errors).every((e) => e === "")
     );
   };
@@ -151,6 +156,8 @@ export const CreateProjectForm = ({ onClose }) => {
                 )}
               </div>
 
+              
+
               {/* Estado */}
               <div>
                 <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
@@ -225,6 +232,22 @@ export const CreateProjectForm = ({ onClose }) => {
               )}
             </div>
           </div>
+
+          {/* Colaboradores*/}
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: '#666666' }}>
+                  Colaboradores
+                </label>
+                <input
+                  type="text"
+                  name="collaborators"
+                  value={form.collaborators}
+                  onChange={handleChange}
+                  placeholder="Mario Castillo"
+                  className='w-full px-4 py-2.5 border rounded-lg transition-all duration-200'
+                  style={{ fontFamily: 'Roboto, sans-serif' }}
+                />
+              </div>
 
           {/* OBJETIVOS */}
           <div className="border-t pt-6">

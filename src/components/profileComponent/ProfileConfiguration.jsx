@@ -209,7 +209,6 @@ export default function ProfileConfiguration() {
               )}
               
               <p className="photo-hint">
-                📍 Se guarda en tu dispositivo (localStorage)<br/>
                 Tamaño máximo: 2MB • Formatos: JPG, PNG, GIF
               </p>
             </div>

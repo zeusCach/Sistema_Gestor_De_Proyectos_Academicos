@@ -1,61 +1,88 @@
-export const RecentProjects = () => {
-  const projects = [
-    { id: 'PROY-001', name: 'Sistema de gestión académica', status: 'aprobado', date: '2024-11-20' },
-    { id: 'PROY-002', name: 'Plataforma e-learning', status: 're', date: '2024-11-18' },
-    { id: 'PROY-003', name: 'App móvil educativa', status: 'borrador', date: '2024-11-15' },
-  ];
+import { Calendar, Tag } from "lucide-react";
 
+export const RecentProjects = ({ projects }) => {
   const statusColors = {
-    vigente: 'bg-green-100 text-green-800',
-    enCurso: 'bg-yellow-100 text-yellow-800',
-    pausado: 'bg-gray-100 text-gray-800',
-    finalizado:'bg-yellow-100 text-yellow-800'
+    'Vigente': 'bg-cyan-100 text-cyan-800 border-cyan-200',
+    'En Curso': 'bg-amber-100 text-amber-800 border-amber-200',
+    'Finalizado': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+    'Pausado': 'bg-gray-100 text-gray-800 border-gray-200',
   };
 
-  const statusLabels = {
-    vigente: 'Vigente',
-    enCurso: 'En curso',
-    pausado: 'Pausado',
-    finalizado: 'Finalizado'
-
-  };
+  if (projects.length === 0) {
+    return (
+      <div className="p-8 text-center text-gray-500">
+        No hay proyectos recientes
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white rounded-lg shadow">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Proyectos Recientes</h3>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Folio</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Acciones</th>
+    <div className="overflow-x-auto">
+      <table className="w-full">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Folio
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Proyecto
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Tipo
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Área
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Estado
+            </th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Fecha Creación
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {projects.map((project) => (
+            <tr key={project.project_id} className="hover:bg-gray-50 transition-colors">
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className="text-sm font-mono text-gray-900 font-medium">
+                  {project.folio}
+                </span>
+              </td>
+              <td className="px-6 py-4">
+                <div className="text-sm font-medium text-gray-900 max-w-xs truncate">
+                  {project.title}
+                </div>
+                <div className="text-sm text-gray-500 max-w-xs truncate">
+                  {project.description}
+                </div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="flex items-center gap-1 text-sm text-gray-600">
+                  <Tag size={14} />
+                  {project.type}
+                </div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                  {project.area}
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusColors[project.status] || 'bg-gray-100 text-gray-800'}`}>
+                  {project.status}
+                </span>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap">
+                <div className="flex items-center gap-1 text-sm text-gray-500">
+                  <Calendar size={14} />
+                  {project.creation_date}
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {projects.map((project) => (
-              <tr key={project.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm font-medium text-gray-900">{project.id}</td>
-                <td className="px-6 py-4 text-sm text-gray-700">{project.name}</td>
-                <td className="px-6 py-4">
-                  <span className={`px-3 py-1 text-xs font-semibold rounded-full ${statusColors[project.status]}`}>
-                    {statusLabels[project.status]}
-                  </span>
-                </td>
-                <td className="px-6 py-4 text-sm text-gray-600">{project.date}</td>
-                <td className="px-6 py-4 text-sm">
-                  <button className="text-blue-600 hover:text-blue-800 font-medium mr-3">Ver</button>
-                  <button className="text-gray-600 hover:text-gray-800 font-medium">Editar</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

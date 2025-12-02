@@ -42,7 +42,7 @@ export const EditProjectForm = ({ project, onClose, onProjectUpdated }) => {
   }, [project]);
 
   // Opciones para los selectores
-  const statusOptions = ["Vigente", "En Curso", "Pausado", "Finalizado", "Rechazado"];
+  const statusOptions = ["Vigente", "En Curso", "Pausado", "Finalizado"];
   const typeOptions = ["interno", "externo"];
   const areaOptions = ["investigacion", "vinculacion"];
 

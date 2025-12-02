@@ -52,10 +52,8 @@ export const ProjectFilters = ({ filters, onFilterChange, onClear }) => {
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Todos</option>
-            <option value="Académico">Académico</option>
-            <option value="Investigación">Investigación</option>
-            <option value="Servicio Social">Servicio Social</option>
-            <option value="Administrativo">Administrativo</option>
+            <option value="interno">Interno</option>
+            <option value="externo">Externo</option>
           </select>
         </div>
       </div>

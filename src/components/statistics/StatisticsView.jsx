@@ -67,7 +67,6 @@ export const StatisticsView = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <MetricCard title="Total Proyectos" value={metrics.total} />
-        <MetricCard title="Promedio Duración (días)" value={metrics.avgDuration} />
         <MetricCard title="Completados" value={metrics.completed} />
       </div>
 

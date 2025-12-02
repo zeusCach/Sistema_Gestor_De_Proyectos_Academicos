@@ -20,7 +20,7 @@ export const useProjectMetrics = (projects = []) => {
 
     const total = projects.length;
 
-    const completed = projects.filter((p) => p.status === "completed").length;
+    const completed = projects.filter((p) => p.status === "Finalizado").length;
 
     const durations = projects.map((p) =>
       calculateDuration(p.startDate, p.endDate)

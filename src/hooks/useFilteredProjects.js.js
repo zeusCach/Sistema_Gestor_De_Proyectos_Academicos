@@ -6,6 +6,9 @@ export const useFilteredProjects = (initialProjects = []) => {
   const [selectedDate, setSelectedDate] = useState("");
 
   const filteredProjects = useMemo(() => {
+
+    console.log(initialProjects.map(p => p.status));
+    
     return initialProjects
       .filter((p) =>
         status ? p.status === status : true

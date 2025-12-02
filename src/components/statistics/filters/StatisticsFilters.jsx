@@ -22,9 +22,10 @@ export const StatisticsFilters = ({
         onChange={(e) => setStatus(e.target.value)}
       >
         <option value="">Todos los estados</option>
-        <option value="planning">Planificación</option>
-        <option value="in-progress">En progreso</option>
-        <option value="completed">Completado</option>
+        <option value="Vigente">Vigente</option>
+        <option value="En Curso">En curso</option>
+        <option value="Pausado">Pausado</option>
+        <option value="Finalizado">Finalizado</option>
       </select>
 
       <input

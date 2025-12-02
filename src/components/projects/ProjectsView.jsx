@@ -5,18 +5,18 @@ import { ProjectFilters } from "./filters/ProjectFilters";
 import { useAuth } from "../../context/AuthContext";
 import { fetchProjects } from "../../services/projectsService";
 import { useProjectActions } from "../../hooks/useProjectActions";
+import { EditProjectForm } from "../formSection/EditProjectForm";
+
 
 export const ProjectsView = () => {
-  
-  //estado de autenticacion de usuario
   const { user } = useAuth();
   
-  // Hook para acciones de proyectos
-  const { updateProject, deleteProject, loading: actionLoading } = useProjectActions();
+  // ✅ NUEVO: Usar el hook para las acciones
+  const { updateProject, deleteProject } = useProjectActions();
 
-  //Estado que inicializa nuestros projects
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     search: '',
     status: '',
@@ -25,29 +25,31 @@ export const ProjectsView = () => {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [editingProject, setEditingProject] = useState(null);
 
-  
   useEffect(() => {
     if (!user) return;
 
     const loadProjects = async () => {
       try {
+        setLoading(true);
+        setError(null);
         const data = await fetchProjects(user.id);
         setProjects(data);
       } catch (err) {
         console.error("Error al cargar proyectos:", err);
+        setError("No se pudieron cargar los proyectos. Por favor, intenta de nuevo.");
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     loadProjects();
-
   }, [user]);
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = 
-      project.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-      project.folio.toLowerCase().includes(filters.search.toLowerCase());
+      project.title?.toLowerCase().includes(filters.search.toLowerCase()) ||
+      project.folio?.toLowerCase().includes(filters.search.toLowerCase()) ||
+      project.description?.toLowerCase().includes(filters.search.toLowerCase());
     
     const matchesStatus = !filters.status || project.status === filters.status;
     const matchesType = !filters.type || project.type === filters.type;
@@ -56,9 +58,15 @@ export const ProjectsView = () => {
   });
 
   const handleEdit = (project) => {
+    console.log('Abriendo modal de edición:', project); // Debug
     setEditingProject(project);
-    console.log('Editar:', project);
-    // TODO: Aquí puedes abrir un modal de edición si lo necesitas
+  };
+
+  const handleProjectUpdated = (updatedProject) => {
+    console.log('Proyecto actualizado:', updatedProject); // Debug
+    setProjects(projects.map(p => 
+      p.project_id === updatedProject.project_id ? updatedProject : p
+    ));
   };
 
   const handleDelete = (project) => {
@@ -66,33 +74,36 @@ export const ProjectsView = () => {
   };
 
   const confirmDelete = async () => {
-    if (!projectToDelete) return;
-
-    // Eliminar en la base de datos usando el hook
-    const result = await deleteProject(projectToDelete.project_id);
-
-    if (result.success) {
-      // Actualizar el estado local
-      setProjects(projects.filter(p => p.project_id !== projectToDelete.project_id));
-      alert("Proyecto eliminado exitosamente");
-      setProjectToDelete(null);
-    } else {
-      alert(`Error al eliminar proyecto: ${result.error}`);
+    try {
+      const result = await deleteProject(projectToDelete.project_id);
+      
+      if (result.success) {
+        setProjects(projects.filter(p => p.project_id !== projectToDelete.project_id));
+        setProjectToDelete(null);
+        alert("Proyecto eliminado exitosamente");
+      } else {
+        alert(`Error al eliminar: ${result.error}`);
+      }
+    } catch (err) {
+      console.error("Error al eliminar proyecto:", err);
+      alert("Error al eliminar el proyecto. Por favor, intenta de nuevo.");
     }
   };
 
   const handleChangeStatus = async (projectId, newStatus) => {
-    // Actualizar el estado en la base de datos
-    const result = await updateProject(projectId, { status: newStatus });
-
-    if (result.success) {
-      // Actualizar el estado local
-      setProjects(projects.map(p => 
-        p.project_id === projectId ? { ...p, status: newStatus } : p
-      ));
-      alert("Estado actualizado exitosamente");
-    } else {
-      alert(`Error al actualizar estado: ${result.error}`);
+    try {
+      const result = await updateProject(projectId, { status: newStatus });
+      
+      if (result.success) {
+        setProjects(projects.map(p => 
+          p.project_id === projectId ? { ...p, status: newStatus } : p
+        ));
+      } else {
+        alert(`Error al cambiar estado: ${result.error}`);
+      }
+    } catch (err) {
+      console.error("Error al cambiar el estado:", err);
+      alert("Error al cambiar el estado del proyecto. Por favor, intenta de nuevo.");
     }
   };
 
@@ -100,11 +111,32 @@ export const ProjectsView = () => {
     setFilters({ search: '', status: '', type: '' });
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center h-screen">
-      <p className="text-xl text-gray-600">Cargando proyectos...</p>
-    </div>
-  );
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando proyectos...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">
@@ -150,8 +182,8 @@ export const ProjectsView = () => {
         <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
           <p className="text-gray-500">
             {filters.search || filters.status || filters.type 
-              ? "No se encontraron proyectos con estos filtros" 
-              : "No tienes proyectos aún"}
+              ? "No se encontraron proyectos con los filtros aplicados" 
+              : "No tienes proyectos registrados"}
           </p>
         </div>
       ) : (
@@ -173,7 +205,18 @@ export const ProjectsView = () => {
           project={projectToDelete}
           onConfirm={confirmDelete}
           onCancel={() => setProjectToDelete(null)}
-          isDeleting={actionLoading}
+        />
+      )}
+
+      {/* Verifica que este modal se esté renderizando */}
+      {editingProject && (
+        <EditProjectForm
+          project={editingProject}
+          onClose={() => {
+            console.log('Cerrando modal'); // Debug
+            setEditingProject(null);
+          }}
+          onProjectUpdated={handleProjectUpdated}
         />
       )}
     </div>

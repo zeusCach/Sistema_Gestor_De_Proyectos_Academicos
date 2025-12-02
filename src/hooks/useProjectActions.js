@@ -1,6 +1,11 @@
 import { useState } from "react";
 import supabase from "../db/supabase_client";
 import { useAuth } from "../context/AuthContext";
+import {
+  notifyProjectCreated,
+  notifyProjectUpdated,
+  notifyProjectDeleted,
+} from "../helpers/notificationHelpers";
 
 export const useProjectActions = () => {
   const { user } = useAuth();
@@ -13,30 +18,29 @@ export const useProjectActions = () => {
     setError(null);
 
     try {
-      // Validar que el usuario esté autenticado
       if (!user?.id) {
         throw new Error("Usuario no autenticado");
       }
 
-      // Preparar los datos del proyecto con el user_id
       const projectToInsert = {
         ...projectData,
-        user_id: user.id, // Usuario que está creando el proyecto
+        user_id: user.id,
       };
 
-      // Insertar el proyecto en la base de datos
       const { data, error: insertError } = await supabase
         .from("projects")
         .insert([projectToInsert])
-        .select(); // Devuelve el proyecto insertado
+        .select();
 
       if (insertError) {
         throw insertError;
       }
 
+      // 🔔 Crear notificación
+      await notifyProjectCreated(user.id, projectData.title);
+
       setLoading(false);
       return { success: true, data: data[0] };
-
     } catch (err) {
       console.error("Error al crear proyecto:", err);
       setError(err.message || "Error desconocido al crear el proyecto");
@@ -55,11 +59,18 @@ export const useProjectActions = () => {
         throw new Error("Usuario no autenticado");
       }
 
+      // Obtener el proyecto actual para comparar cambios
+      const { data: currentProject } = await supabase
+        .from("projects")
+        .select("title")
+        .eq("project_id", projectId)
+        .single();
+
       const { data, error: updateError } = await supabase
         .from("projects")
         .update(updates)
         .eq("project_id", projectId)
-        .eq("user_id", user.id) // Solo puede actualizar sus propios proyectos
+        .eq("user_id", user.id)
         .select()
         .single();
 
@@ -67,9 +78,15 @@ export const useProjectActions = () => {
         throw updateError;
       }
 
+      // 🔔 Crear notificación
+      await notifyProjectUpdated(
+        user.id,
+        currentProject?.title || "Proyecto",
+        updates
+      );
+
       setLoading(false);
       return { success: true, data };
-
     } catch (err) {
       console.error("Error al actualizar proyecto:", err);
       setError(err.message || "Error desconocido al actualizar el proyecto");
@@ -88,27 +105,29 @@ export const useProjectActions = () => {
         throw new Error("Usuario no autenticado");
       }
 
-      // Opción 1: Soft delete (recomendado)
+      // Obtener el título antes de eliminar
+      const { data: project } = await supabase
+        .from("projects")
+        .select("title")
+        .eq("project_id", projectId)
+        .single();
+
+      // Soft delete
       const { error: deleteError } = await supabase
         .from("projects")
         .update({ is_deleted: true })
         .eq("project_id", projectId)
         .eq("user_id", user.id);
 
-      // Opción 2: Hard delete (eliminar permanentemente)
-      // const { error: deleteError } = await supabase
-      //   .from("projects")
-      //   .delete()
-      //   .eq("project_id", projectId)
-      //   .eq("user_id", user.id);
-
       if (deleteError) {
         throw deleteError;
       }
 
+      // 🔔 Crear notificación
+      await notifyProjectDeleted(user.id, project?.title || "Proyecto");
+
       setLoading(false);
       return { success: true };
-
     } catch (err) {
       console.error("Error al eliminar proyecto:", err);
       setError(err.message || "Error desconocido al eliminar el proyecto");

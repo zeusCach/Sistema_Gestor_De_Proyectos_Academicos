@@ -7,7 +7,7 @@ import {
   getProfilePhoto,
   deleteProfilePhoto,
 } from "../../services/profileService";
-import "./../../styles/App.css";
+import "../../styles/App.css";
 
 export default function ProfileConfiguration() {
   const { user } = useAuth();

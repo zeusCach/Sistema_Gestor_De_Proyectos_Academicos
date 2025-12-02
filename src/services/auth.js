@@ -41,7 +41,7 @@ export async function loginUser(email, password) {
 
     
   });
-console.log(email, password);
+
 
   return { user: data?.user, error };
 }

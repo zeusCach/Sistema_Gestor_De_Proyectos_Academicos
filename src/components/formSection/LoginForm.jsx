@@ -6,7 +6,7 @@ import { Button } from './Button.jsx'
 //react router
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import { loginUser } from '../services/auth.js';
+import { loginUser } from '../../services/auth.js';
 
 
 export const LoginForm = () => {

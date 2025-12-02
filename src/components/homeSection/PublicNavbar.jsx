@@ -1,6 +1,6 @@
 import { GraduationCap, LogIn } from "lucide-react"; // Usamos Lucide para los iconos en React
 import { Link } from "react-router-dom";
-import Logo_isc from "../assets/Logo_isc.png";
+import Logo_isc from "../../assets/Logo_isc.png";
 
 /**
  * PublicNavbar

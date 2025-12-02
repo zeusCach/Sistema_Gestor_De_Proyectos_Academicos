@@ -3,7 +3,7 @@ import { InputField } from './InputField.jsx'
 import { Button } from './Button.jsx'
 import { Link } from "react-router-dom";
 import { useState } from 'react';
-import { registerUser } from '../services/auth.js';
+import { registerUser } from '../../services/auth.js';
 import { useNavigate } from "react-router-dom";
 
 

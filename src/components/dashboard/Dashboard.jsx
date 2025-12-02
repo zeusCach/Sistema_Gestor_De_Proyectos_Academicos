@@ -1,11 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { Navbar } from "./NavBar";
-import { RecentProjects } from "./RecentProjects";
 import { Sidebar } from "./SideBar";
-import { StatCard } from "./StatCard";
-import { useAuth } from "../context/AuthContext";
-import { CreateProjectForm } from "./CreateProjectForm";
+
 
 export const Dashboard = () => {
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { Link, useLocation } from "react-router-dom";
 
 export const Sidebar = ({ activeMenu }) => {

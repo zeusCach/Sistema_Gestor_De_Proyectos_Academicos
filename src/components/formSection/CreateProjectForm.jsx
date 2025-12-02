@@ -1,7 +1,7 @@
 import { useState } from "react";
-import supabase from "../db/supabase_client";
-import { useAuth } from "../context/AuthContext";
-import { useProjectActions } from "../hooks/useProjectActions";
+import supabase from "../../db/supabase_client";
+import { useAuth } from "../../context/AuthContext";
+import { useProjectActions } from "../../hooks/useProjectActions";
 
 export const CreateProjectForm = ({ onClose }) => {
 

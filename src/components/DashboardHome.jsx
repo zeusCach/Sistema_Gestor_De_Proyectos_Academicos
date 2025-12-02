@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { RecentProjects } from "./RecentProjects";
-import { StatCard } from "./StatCard";
-import { CreateProjectForm } from "./CreateProjectForm";
+import { RecentProjects } from "./projects/RecentProjects";
+import { StatCard } from "./statistics/card/StatCard";
+import { CreateProjectForm } from "./formSection/CreateProjectForm";
 import { useAuth } from "../context/AuthContext";
 import { fetchProjects } from "../services/projectsService";
 

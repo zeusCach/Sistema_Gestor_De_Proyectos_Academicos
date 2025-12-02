@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { Search, FolderOpen } from "lucide-react";
-import { PublicNavbar } from "./PublicNavbar";
-import { HeroStats } from "./HeroStats";
-import { ProjectCard } from "./ProjectCard";
+import { PublicNavbar } from "./homeSection/PublicNavbar";
+import { HeroStats } from "./homeSection/HeroStats";
+import { ProjectCard } from "./projects/cards/ProjectCard";
 import { ProjectDetailView } from "./projectDetail/ProjectDetailView";
 import { useProjects } from "../hooks/useProjects";
 import { getProjectById } from "../db/projects";

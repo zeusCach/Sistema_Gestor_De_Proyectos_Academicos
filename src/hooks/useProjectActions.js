@@ -60,14 +60,15 @@ export const useProjectActions = () => {
         .update(updates)
         .eq("project_id", projectId)
         .eq("user_id", user.id) // Solo puede actualizar sus propios proyectos
-        .select();
+        .select()
+        .single();
 
       if (updateError) {
         throw updateError;
       }
 
       setLoading(false);
-      return { success: true, data: data[0] };
+      return { success: true, data };
 
     } catch (err) {
       console.error("Error al actualizar proyecto:", err);
@@ -77,7 +78,7 @@ export const useProjectActions = () => {
     }
   };
 
-  // Función para eliminar un proyecto
+  // Función para eliminar un proyecto (soft delete)
   const deleteProject = async (projectId) => {
     setLoading(true);
     setError(null);
@@ -87,11 +88,19 @@ export const useProjectActions = () => {
         throw new Error("Usuario no autenticado");
       }
 
+      // Opción 1: Soft delete (recomendado)
       const { error: deleteError } = await supabase
         .from("projects")
-        .delete()
+        .update({ is_deleted: true })
         .eq("project_id", projectId)
-        .eq("user_id", user.id); // Solo puede eliminar sus propios proyectos
+        .eq("user_id", user.id);
+
+      // Opción 2: Hard delete (eliminar permanentemente)
+      // const { error: deleteError } = await supabase
+      //   .from("projects")
+      //   .delete()
+      //   .eq("project_id", projectId)
+      //   .eq("user_id", user.id);
 
       if (deleteError) {
         throw deleteError;

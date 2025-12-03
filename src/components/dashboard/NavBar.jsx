@@ -23,6 +23,8 @@ export const Navbar = () => {
   //estado que controla el nombre del usuario
    const [userName, setUserName] = useState("Usuario");
 
+
+   //Effect que carga nuestra imagen
   useEffect(() => {
 
     if (!userId) return; // si es diferente a la autenticacion del usuario o si no existe retorna nullo
@@ -38,18 +40,6 @@ export const Navbar = () => {
       }
     }
 
-     // Monta el nombre desde Supabase
-    const loadUserName = async () => {
-      try {
-        const profile = await fetchUserProfile(userId);
-        if (profile?.name) setUserName(profile.name);
-      } catch (error) {
-        console.error("Error al cargar nombre:", error);
-      }
-    };
-
-    loadUserName();
-
     window.addEventListener("profilePhotoUpdated", handlePhotoUpdated);
 
     return () => {
@@ -57,6 +47,25 @@ export const Navbar = () => {
     };
 
   }, [userId])
+
+  //effect que carga nuestro name jeje
+
+  useEffect(() => {
+  if (!userId) return;
+
+  const loadUserName = async () => {
+    try {
+      const profile = await fetchUserProfile(userId);
+      if (profile?.name) {
+        setUserName(profile.name);
+      }
+    } catch (error) {
+      console.error("Error al cargar nombre:", error);
+    }
+  };
+
+  loadUserName();
+}, [userId]);
 
   return (
     <nav className="bg-white border-b border-gray-200 fixed w-full z-10 top-0">
@@ -117,7 +126,7 @@ export const Navbar = () => {
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                    {userName.charAt(0)}
+                   
                   </div>
                 )}
               <span className="hidden md:block text-sm font-medium text-gray-700">{userName}</span>

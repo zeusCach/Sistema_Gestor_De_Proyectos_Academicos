@@ -44,7 +44,7 @@ export const AppRouter = () => {
                 <Route index element={<DashboardHome />} />
                 <Route path="estadisticas" element={<StatisticsView />} />
                 <Route path="proyectos" element={<ProjectsView />} />
-                <Route path="configuracion" element={<ProfileConfiguration/>} /> */
+                <Route path="configuracion" element={<ProfileConfiguration/>} />
             </Route>
         </Routes>
     )

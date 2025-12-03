@@ -12,6 +12,9 @@ import { getProjectById } from "../db/projects";
  * Componente principal (Page) que maneja toda la lógica de la vista pública.
  * Aquí reside el estado de los datos, los filtros y el cálculo de estadísticas.
  */
+
+//Subiendo A Produccion yeiii
+
 export const PublicHome = () => {
 
   // Función auxiliar para normalizar strings (case-insensitive)

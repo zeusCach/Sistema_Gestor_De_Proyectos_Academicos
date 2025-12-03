@@ -5,11 +5,14 @@ import Logo_isc from "../../assets/Logo_isc.png"; // CORRECTO
 import logo_TecNM from "../../assets/Logo_TecNM.png"; // CORRECTO
 import logo_educacion from "../../assets/logo_educacion.png"; // CORRECTO
 import { NotificationsDropdown } from "../notifications/NotificationsDropdown";
+import { useSearch } from "../../context/SearchContext";
 
 export const Navbar = ({ userName = "Zeus" }) => {
 
   //Hook que controla acceso a permisos del usuario
   const { user } = useAuth()
+
+  const { searchTerm, setSearchTerm } = useSearch(); // Usa el hook de búsqueda
 
   const userId = user?.id; //si existe un usuario actual, guardalo
 
@@ -75,7 +78,9 @@ export const Navbar = ({ userName = "Zeus" }) => {
               <input
                 type="text"
                 placeholder="Buscar proyectos..."
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
               />
             </div>
 

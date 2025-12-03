@@ -1,6 +1,7 @@
-import { Calendar, Edit2, Folder, Handshake, Microscope, MoreVertical, RefreshCw, Tag, Trash2 } from "lucide-react";
+import { Calendar, Download, Edit2, Folder, Handshake, Microscope, MoreVertical, RefreshCw, Tag, Trash2 } from "lucide-react";
 import { STATUS_OPTIONS } from "../constants/constants_proyects";
 import { useState } from "react";
+import { generateProjectPDF } from "../../../utils/pdfGenerator";
 
 export const ProjectCardAdmin = ({ project, onEdit, onDelete, onChangeStatus }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -12,6 +13,13 @@ export const ProjectCardAdmin = ({ project, onEdit, onDelete, onChangeStatus }) 
     'Finalizado': 'bg-emerald-100 text-emerald-800 border-emerald-200',
     'Pausado': 'bg-gray-100 text-gray-800 border-gray-200',
     'Rechazado': 'bg-red-100 text-red-800 border-red-200'
+  };
+
+  const handleDownloadPDF = (e) => {
+    e.stopPropagation(); // Evita que se active el onClick de la tarjeta
+
+    generateProjectPDF(project);
+    setShowMenu(false);
   };
 
   const getAreaIcon = (area) => {
@@ -73,6 +81,15 @@ export const ProjectCardAdmin = ({ project, onEdit, onDelete, onChangeStatus }) 
                 <Trash2 size={16} />
                 Eliminar
               </button>
+
+              {/* Botón de descargar PDF */}
+            <button
+              onClick={handleDownloadPDF}
+              className="w-full px-4 py-2 text-left hover:bg-gray-50 flex items-center gap-2 text-green-700"
+            >
+              <Download size={16} />
+              Descargar PDF
+            </button>
             </div>
           </>
         )}

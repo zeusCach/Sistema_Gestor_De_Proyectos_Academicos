@@ -115,7 +115,7 @@ export const useProjectActions = () => {
       // Soft delete
       const { error: deleteError } = await supabase
         .from("projects")
-        .update({ is_deleted: true })
+        .delete()
         .eq("project_id", projectId)
         .eq("user_id", user.id);
 

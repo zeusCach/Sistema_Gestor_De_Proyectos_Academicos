@@ -1,6 +1,13 @@
 //Importacion de nuestros componentes
 import { InputField } from './InputField.jsx'
 import { Button } from './Button.jsx'
+
+
+import Logo_isc from "../../assets/Logo_isc.png"; // CORRECTO
+import logo_TecNM from "../../assets/Logo_TecNM.png"; // CORRECTO
+import logo_educacion from "../../assets/logo_educacion.png"; // CORRECTO
+
+
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { registerUser } from '../../services/auth.js';
@@ -32,7 +39,7 @@ export const RegisterForm = () => {
 
   //Estado para validacion
   const [errors, setErrors] = useState("");
-  
+
 
   //Funcion que maneja los cambios escritos en el input del form
   function handleChange(e) {
@@ -72,7 +79,7 @@ export const RegisterForm = () => {
     e.preventDefault();
     setErrorMsg("");
 
-    if(!validateForm()) return;
+    if (!validateForm()) return;
 
     setLoading(true);
 
@@ -94,94 +101,124 @@ export const RegisterForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900">Registro de Usuario</h2>
-          <p className="mt-2 text-sm text-gray-600">Sistema de Gestión de Proyectos Académicos</p>
-        </div>
 
-        {errorMsg && (
-           <p className="text-red-600 text-center mb-4">{errorMsg}</p>
-        )}
+    <>
 
-        <form onSubmit={handleSubmit}>
+      {/* Logos institucionales */}
+      <div className="flex items-center gap-6">
+        {/* Logo 1 - Instituto Tecnológico Felipe Carrillo Puerto */}
+        <img
+          src={logo_TecNM}
+          alt="Instituto Tecnológico Felipe Carrillo Puerto"
+          className="h-18 object-contain"
+        />
+
+        {/* Logo 2 - SEP */}
+        <img
+          src={logo_educacion}
+          alt="Secretaría de Educación Pública"
+          className="h-18 object-contain"
+        />
+
+        {/* Logo 3 - Ingeniería en Sistemas */}
+        <img
+          src={Logo_isc}
+          alt="Ingeniería en Sistemas Computacionales"
+          className="h-18 object-contain"
+        />
+      </div>
 
 
-          <InputField
-            label="Nombre Completo"
-            type="text"
-            name="name"
-            placeholder="Juan Pérez"
-            required={true}
-            value={form.name}
-            onChange={handleChange}
-            error={errors.name}
-          />
-
-          <InputField
-            label="Correo Electrónico"
-            type="email"
-            name="email"
-            placeholder="correo@ejemplo.com"
-            required={true}
-            value={form.email}
-            onChange={handleChange}
-            error={errors.email}
-          />
-
-          <InputField
-            label="Contraseña"
-            type="password"
-            name="password"
-            placeholder="Mínimo 6 caracteres"
-            required={true}
-            value={form.password}
-            onChange={handleChange}
-            error={errors.password}
-          />
-
-          <InputField
-            label="Confirmar Contraseña"
-            type="password"
-            name="confirmPassword"
-            placeholder="Repita la contraseña"
-            required={true}
-            value={form.confirmPassword}
-            onChange={handleChange}
-            error={errors.confirmPassword}
-          />
-
-          {/* Campos adicionales para publicador */}
-          <div className="bg-blue-50 p-4 rounded-lg mb-4">
-            <p className="text-sm text-blue-800 font-medium mb-3">Información adicional para publicadores</p>
-
-            <InputField
-              label="Institución"
-              type="text"
-              name="institution"
-              placeholder="Nombre de la institución"
-              required={true}
-              value={form.institution}
-              onChange={handleChange}
-              error={errors.institution}
-            />
-
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+          <div className="mb-8 text-center">
+            <h2 className="text-3xl font-bold text-gray-900">Registro de Usuario</h2>
+            <p className="mt-2 text-sm text-gray-600">Sistema de Gestión de Proyectos Académicos</p>
           </div>
 
-          <Button variant="primary" disabled={loading}>
-            {loading ? "Registrando..." : "Registrar Usuario"}
-          </Button>
-        </form>
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            ¿Ya tienes cuenta?{' '}
-            <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-              Inicia sesión aquí
-            </Link>
-          </p>
+          {errorMsg && (
+            <p className="text-red-600 text-center mb-4">{errorMsg}</p>
+          )}
+
+          <form onSubmit={handleSubmit}>
+
+
+            <InputField
+              label="Nombre Completo"
+              type="text"
+              name="name"
+              placeholder="Juan Pérez"
+              required={true}
+              value={form.name}
+              onChange={handleChange}
+              error={errors.name}
+            />
+
+            <InputField
+              label="Correo Electrónico"
+              type="email"
+              name="email"
+              placeholder="correo@ejemplo.com"
+              required={true}
+              value={form.email}
+              onChange={handleChange}
+              error={errors.email}
+            />
+
+            <InputField
+              label="Contraseña"
+              type="password"
+              name="password"
+              placeholder="Mínimo 6 caracteres"
+              required={true}
+              value={form.password}
+              onChange={handleChange}
+              error={errors.password}
+            />
+
+            <InputField
+              label="Confirmar Contraseña"
+              type="password"
+              name="confirmPassword"
+              placeholder="Repita la contraseña"
+              required={true}
+              value={form.confirmPassword}
+              onChange={handleChange}
+              error={errors.confirmPassword}
+            />
+
+            {/* Campos adicionales para publicador */}
+            <div className="bg-blue-50 p-4 rounded-lg mb-4">
+              <p className="text-sm text-blue-800 font-medium mb-3">Información adicional para publicadores</p>
+
+              <InputField
+                label="Institución"
+                type="text"
+                name="institution"
+                placeholder="Nombre de la institución"
+                required={true}
+                value={form.institution}
+                onChange={handleChange}
+                error={errors.institution}
+              />
+
+            </div>
+
+            <Button variant="primary" disabled={loading}>
+              {loading ? "Registrando..." : "Registrar Usuario"}
+            </Button>
+          </form>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              ¿Ya tienes cuenta?{' '}
+              <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+                Inicia sesión aquí
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+
+    </>
   );
 };

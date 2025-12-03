@@ -2,6 +2,7 @@ import { ProjectHeader } from './ProjectHeader';
 import { ProjectInfo } from './ProjectInfo';
 import { ProjectObjectives } from './ProjectObjectives';
 import { ProjectAdditionalInfo } from './ProjectAdditionalInfo';
+import { generateProjectPDF } from '../../utils/pdfGenerator';
 
 /**
  * ProjectDetailView
@@ -11,8 +12,7 @@ import { ProjectAdditionalInfo } from './ProjectAdditionalInfo';
 export const ProjectDetailView = ({ project, onBack }) => {
   
   const handleDownloadPDF = () => {
-    // Aquí implementarás la lógica de descarga del PDF
-    alert('Función de descarga de PDF - Aquí implementarás la descarga del documento');
+    generateProjectPDF(project);
   };
 
   // Combinar objetivo general con objetivos específicos

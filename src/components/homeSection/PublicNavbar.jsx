@@ -38,9 +38,7 @@ export const PublicNavbar = () => {
                         <a href="#proyectos" className="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">
                             Proyectos
                         </a>
-                        <a href="#estadisticas" className="text-slate-600 hover:text-blue-600 font-medium text-sm transition-colors">
-                            Estadísticas
-                        </a>
+                        
                     </div>
 
                     {/* --- BOTÓN DE LOGIN --- */}

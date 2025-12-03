@@ -4,6 +4,24 @@ import { createNotification } from "../services/notificationsServices";
  * Notificación: Usuario actualizó su perfil
  */
 export const notifyProfileUpdate = async (userId, changes) => {
+
+
+  const fieldLabels = {
+  folio: 'Folio',
+  title: 'Título',
+  description: 'Descripción',
+  collaborators: 'Colaboradores',
+  general_objective: 'Objetivo General',
+  specific_objectives: 'Objetivos Específicos',
+  type: 'Tipo de Proyecto',
+  area: 'Área',
+  creation_date: 'Fecha de Inicio',
+  completion_date: 'Fecha de Finalización',
+  status: 'Estado',
+  institution: 'Institución',
+  duration: 'Duración'
+};
+
   const changedFields = Object.keys(changes);
   let message = "Has actualizado tu perfil: ";
 
@@ -40,14 +58,14 @@ export const notifyProjectCreated = async (userId, projectTitle) => {
  * Notificación: Usuario actualizó un proyecto
  */
 export const notifyProjectUpdated = async (userId, projectTitle, changes) => {
-  const changedFields = Object.keys(changes).join(", ");
+  //const changedFields = Object.keys(changes).join(", ");
 
   return await createNotification(
     userId,
     "project_update",
     "Proyecto actualizado",
-    `Has actualizado "${projectTitle}". Cambios: ${changedFields}`,
-    { projectTitle, changes }
+    `Has actualizado "${projectTitle}"`,
+    { projectTitle}
   );
 };
 

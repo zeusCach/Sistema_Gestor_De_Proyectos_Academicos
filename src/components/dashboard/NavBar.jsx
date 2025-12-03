@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { getProfilePhoto } from "../../services/profileService";
+import { fetchUserProfile, getProfilePhoto } from "../../services/profileService";
 import Logo_isc from "../../assets/Logo_isc.png"; // CORRECTO
 import logo_TecNM from "../../assets/Logo_TecNM.png"; // CORRECTO
 import logo_educacion from "../../assets/logo_educacion.png"; // CORRECTO
 import { NotificationsDropdown } from "../notifications/NotificationsDropdown";
 import { useSearch } from "../../context/SearchContext";
 
-export const Navbar = ({ userName = "Zeus" }) => {
+export const Navbar = () => {
 
   //Hook que controla acceso a permisos del usuario
   const { user } = useAuth()
@@ -19,20 +19,36 @@ export const Navbar = ({ userName = "Zeus" }) => {
   //estado que maneja accion de mostrar imagen
   const [profilePhoto, setProfilePhoto] = useState(null)
 
+
+  //estado que controla el nombre del usuario
+   const [userName, setUserName] = useState("Usuario");
+
   useEffect(() => {
 
     if (!userId) return; // si es diferente a la autenticacion del usuario o si no existe retorna nullo
 
-    // 1. Cargar imagen inicial
+    // Cargar imagen inicial
     const photo = getProfilePhoto(userId);
     setProfilePhoto(photo);
 
-    // 2. Escuchar cambios en tiempo real
+    // Escuchar cambios en tiempo real
     function handlePhotoUpdated(e) {
       if (e.detail.userId === userId) {
         setProfilePhoto(e.detail.photoBase64);
       }
     }
+
+     // Monta el nombre desde Supabase
+    const loadUserName = async () => {
+      try {
+        const profile = await fetchUserProfile(userId);
+        if (profile?.name) setUserName(profile.name);
+      } catch (error) {
+        console.error("Error al cargar nombre:", error);
+      }
+    };
+
+    loadUserName();
 
     window.addEventListener("profilePhotoUpdated", handlePhotoUpdated);
 

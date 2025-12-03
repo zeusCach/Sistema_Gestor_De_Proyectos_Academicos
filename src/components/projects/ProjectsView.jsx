@@ -170,6 +170,12 @@ export const ProjectsView = () => {
           </div>
           <div className="text-sm text-gray-600">En Curso</div>
         </div>
+         <div className="bg-white rounded-lg p-4 border border-gray-200">
+          <div className="text-2xl font-bold text-red-600">
+            {projects.filter(p => p.status === 'Pausado').length}
+          </div>
+          <div className="text-sm text-gray-600">Pausado</div>
+        </div>
         <div className="bg-white rounded-lg p-4 border border-gray-200">
           <div className="text-2xl font-bold text-emerald-600">
             {projects.filter(p => p.status === 'Finalizado').length}

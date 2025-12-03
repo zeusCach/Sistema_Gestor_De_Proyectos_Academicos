@@ -3,24 +3,18 @@ import { RecentProjects } from "./projects/RecentProjects";
 import { StatCard } from "./statistics/card/StatCard";
 import { CreateProjectForm } from "./formSection/CreateProjectForm";
 import { useAuth } from "../context/AuthContext";
+import { useSearch } from "../context/SearchContext"; // Importa el hook
 import { fetchProjects } from "../services/projectsService";
 
 export const DashboardHome = () => {
-
-  //hook de autenticacion del usuario
-  const {user} = useAuth();
-
-  //hooks que sincronizan los proyectos del usuario
+  const { user } = useAuth();
+  const { searchTerm } = useSearch(); // Obtén el término de búsqueda
+  
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
-//Estado que controla la accion de mostrar el formulario del proyecto
   const [showCreateForm, setShowCreateForm] = useState(false);
 
-
-
-useEffect(() => {
+  useEffect(() => {
     if (!user) return;
 
     const loadProjects = async () => {
@@ -37,12 +31,9 @@ useEffect(() => {
     loadProjects();
   }, [user]);
 
-
-  // Función para recargar proyectos después de crear uno nuevo
   const handleProjectCreated = async () => {
     setShowCreateForm(false);
 
-    // Recargar proyectos
     try {
       const data = await fetchProjects(user.id);
       setProjects(data);
@@ -51,18 +42,31 @@ useEffect(() => {
     }
   };
 
-   // Calcular estadísticas
+  // FILTRAR PROYECTOS SEGÚN BÚSQUEDA
+  const filteredProjects = projects.filter(project => {
+    if (!searchTerm) return true; // Si no hay búsqueda, mostrar todos
+    
+    const searchLower = searchTerm.toLowerCase();
+    return (
+      project.title?.toLowerCase().includes(searchLower) ||
+      project.folio?.toLowerCase().includes(searchLower) ||
+      project.description?.toLowerCase().includes(searchLower) ||
+      project.type?.toLowerCase().includes(searchLower) ||
+      project.area?.toLowerCase().includes(searchLower)
+    );
+  });
+
+  // Calcular estadísticas con proyectos filtrados
   const stats = {
-    total: projects.length,
-    vigente: projects.filter(p => p.status === 'Vigente').length,
-    enCurso: projects.filter(p => p.status === 'En Curso').length,
-    pausado: projects.filter(p => p.status === 'Pausado').length,
-    finalizado: projects.filter(p => p.status === 'Finalizado').length,
+    total: filteredProjects.length,
+    vigente: filteredProjects.filter(p => p.status === 'Vigente').length,
+    enCurso: filteredProjects.filter(p => p.status === 'En Curso').length,
+    pausado: filteredProjects.filter(p => p.status === 'Pausado').length,
+    finalizado: filteredProjects.filter(p => p.status === 'Finalizado').length,
   };
 
-
-   // Obtener los 5 proyectos más recientes
-  const recentProjects = projects
+  // Obtener los 5 proyectos más recientes (filtrados)
+  const recentProjects = filteredProjects
     .sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date))
     .slice(0, 5);
 
@@ -85,7 +89,16 @@ useEffect(() => {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600 mt-1">Bienvenido de nuevo, aquí está el resumen de tus proyectos</p>
+            <p className="text-gray-600 mt-1">
+              Bienvenido de nuevo, aquí está el resumen de tus proyectos
+            </p>
+            
+            {/* Mostrar si hay búsqueda activa */}
+            {searchTerm && (
+              <p className="text-sm text-blue-600 mt-2">
+                Mostrando resultados para: "<strong>{searchTerm}</strong>"
+              </p>
+            )}
           </div>
 
           {/* Botón destacado */}
@@ -105,7 +118,7 @@ useEffect(() => {
               title="Total Proyectos" 
               value={stats.total} 
               color="#3B82F6" 
-              subtitle="Todos los tiempos" 
+              subtitle={searchTerm ? "Filtrados" : "Todos los tiempos"} 
             />
             <StatCard 
               title="Vigente" 
@@ -129,9 +142,19 @@ useEffect(() => {
             />
           </div>
 
+          {/* Mensaje si no hay resultados */}
+          {filteredProjects.length === 0 && searchTerm && (
+            <div className="text-center py-12 bg-white rounded-lg border border-gray-200 mb-8">
+              <p className="text-gray-500">
+                No se encontraron proyectos que coincidan con "<strong>{searchTerm}</strong>"
+              </p>
+            </div>
+          )}
 
           {/* Tabla de proyectos */}
-          <RecentProjects  projects={recentProjects}/>
+          {filteredProjects.length > 0 && (
+            <RecentProjects projects={recentProjects} />
+          )}
         </div>
       )}
     </>

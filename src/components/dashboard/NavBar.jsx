@@ -126,7 +126,7 @@ export const Navbar = () => {
                   />
                 ) : (
                   <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
-                   
+                    {userName.charAt(0)}
                   </div>
                 )}
               <span className="hidden md:block text-sm font-medium text-gray-700">{userName}</span>

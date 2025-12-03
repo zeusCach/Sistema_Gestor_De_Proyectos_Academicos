@@ -13,7 +13,7 @@ import { getProjectById } from "../db/projects";
  * Aquí reside el estado de los datos, los filtros y el cálculo de estadísticas.
  */
 
-//Subiendo A Produccion yeiii
+//Subiendo A Produccion yeii
 
 export const PublicHome = () => {
 

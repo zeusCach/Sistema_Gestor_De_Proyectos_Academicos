@@ -24,7 +24,7 @@ export const PublicNavbar = () => {
                         
                         <div>
                             <h1 className="font-bold text-lg tracking-tight text-slate-900 leading-tight">
-                                Sistema Gestor de Proyectos Academicos
+                                Sistema para seguimiento de proyectos
                             </h1>
                             <p className="text-xs text-slate-500 font-medium">Gestión Académica</p>
                         </div>

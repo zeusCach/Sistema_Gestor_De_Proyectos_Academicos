@@ -22,7 +22,7 @@ export const StatusProgressBars = ({ projects }) => {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <h2 className="text-lg font-bold mb-4 text-gray-900">Progreso por Estado</h2>
+      <h2 className="text-lg font-bold mb-4 text-gray-900">Proyecto por estado</h2>
 
       <div className="space-y-4">
         {counts.map(({ status, count, percentage }) => (
